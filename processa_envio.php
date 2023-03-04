@@ -45,36 +45,24 @@
   $mail = new PHPMailer(true);
 
   try {
-      //Server settings
-      $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-      $mail->isSMTP();                                            //Send using SMTP
-      $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-      $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = '';                     //SMTP username
-      $mail->Password   = '';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+      $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+      $mail->isSMTP();
+      $mail->Host       = 'smtp.gmail.com';
+      $mail->SMTPAuth   = true;
+      $mail->Username   = '';
+      $mail->Password   = '';
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      $mail->Port       = 587;
 
-      //Recipients
-      $mail->setFrom('softsolweb.ssw@gmail.com', 'Mailer');
-      $mail->addAddress('softsolweb.ssw@gmail.com', 'Joe User');     //Add a recipient
-      //$mail->addAddress('ellen@example.com');               //Name is optional
-      //$mail->addReplyTo('info@example.com', 'Information');
-     // $mail->addCC('cc@example.com');
-     // $mail->addBCC('bcc@example.com');
+      $mail->setFrom('softsolweb.ssw@gmail.com', 'E-mail com PHP Mailer');
+      $mail->addAddress($mensagem->__get('para'));
 
-      //Attachments
-      //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-      //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-
-      //Content
-      $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject = 'Assunto do email';
-      $mail->Body    = 'Conteúdo do e-mail';
-      //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+      $mail->isHTML(true);
+      $mail->Subject = $mensagem->__get('assunto');
+      $mail->Body    = $mensagem->__get('mensagem');
 
       $mail->send();
-      echo 'Message has been sent';
+      echo 'E-mail enviado com sucesso!';
   } catch (Exception $e) {
       echo "Erro ao enviar e-mail: {$mail->ErrorInfo}";
   }
